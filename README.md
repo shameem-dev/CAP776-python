@@ -32,6 +32,7 @@ The program:
 |---|---|
 | `12600934.py` | The Python program |
 | `12600934.xlsx` | The input Excel tracker (must contain a sheet named `Daily Log`) |
+| `12600934-Project1Report.docx` | Report card |
 | `README.md` | This file |
 
 Keep the `.py` file and the `.xlsx` file in the **same folder**.
