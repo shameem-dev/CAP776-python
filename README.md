@@ -2,7 +2,7 @@
 
 **Student:** Shameem Ali T
 **Registration No.:** 12600934
-**Section:** 496
+**Section:** D1P2631
 **Course:** CAP776 – Programming in Python
 
 ---
