@@ -10,7 +10,11 @@ def load_data(filename):
         print(f"Error: Could not find the file '{filename}'. Check the filename and that it's in the right folder.")
         return []
 
-    ws = wb["Daily Log"]
+    try:
+        ws = wb["Daily Log"]
+    except KeyError:
+        print("Error: The sheet 'Daily Log' was not found in the file.")
+        return []
 
     all_days = []
     for row in range(6, ws.max_row + 1):
@@ -33,17 +37,21 @@ def load_data(filename):
 
     return all_days
 
-all_days = load_data("12604325.xlsx")
+all_days = load_data("12600934.xlsx")
 print(len(all_days))
-print(all_days[0])
+if len(all_days) > 0:
+    print(all_days[0])
 
 cutoff_date = datetime.datetime(2026, 9, 21)
+start_date = datetime.datetime(2026, 8, 13)
 
 # Checks whether one day's data is complete and within the recording period
 def check_valid(day):
     if day["date"] is None:
         return False
     if day["date"] > cutoff_date:
+        return False
+    if day["date"] < start_date:
         return False
     if day["sleep"] is None:
         return False
@@ -69,7 +77,7 @@ def check_valid(day):
         return False
     return True
  
-# Counts how many days are valid vs missing, compared to expected days
+# Counting how many days are valid vs missing
 def count_days(all_days, expected_days):
     valid_count = 0
     missing_count = 0
@@ -96,10 +104,11 @@ feeling_scale = {
 }
 
 satisfaction_scale = {
-    "Unsatisfied": 1,
-    "Neutral": 2,
-    "Satisfied": 3,
-    "Very Satisfied": 4,
+    "Very Unsatisfied": 1,
+    "Unsatisfied": 2,
+    "Neutral": 3,
+    "Satisfied": 4,
+    "Very Satisfied": 5,
 }
 
 energy_scale = {
@@ -110,7 +119,7 @@ energy_scale = {
     "Very High": 5,
 }
 
-# Calculates average minutes for each activity, using only valid days
+# Calculates average minutes for each activity
 def calculate_averages(all_days):
     total_sleep = 0
     total_fitness = 0
